@@ -7,6 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* this chapter carries a fourth concept (Beyond BLAST); auto-fit keeps it
+     4-across on desktop and 2x2 on tablets instead of orphaning one card */
+  .concept-row { grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); }
+</style>
 </head>
 <body>
 <div class="starfield"></div>
@@ -33,6 +38,7 @@
     <div class="concept"><div class="ic">⚡</div><h4>Seed &amp; extend</h4><p>BLAST finds short exact "word" matches, then extends them into high-scoring pairs.</p></div>
     <div class="concept"><div class="ic">📐</div><h4>The E-value</h4><p>How many hits this good you'd expect by chance — the lower, the more significant.</p></div>
     <div class="concept"><div class="ic">🧬</div><h4>BWA &amp; the BWT</h4><p>The Burrows-Wheeler transform indexes a genome so short reads map in a flash.</p></div>
+    <div class="concept"><div class="ic">🚀</div><h4>Beyond BLAST</h4><p>DIAMOND, MMseqs2 and Foldseek — search built for databases a thousand times bigger than BLAST was designed for.</p></div>
   </div>
 
   <!-- VISUAL 1: seed and extend -->
@@ -99,6 +105,7 @@
     <li>The E-value reports how many equally good hits you'd expect by chance — treat a search like an experiment.</li>
     <li>FASTA and BLAST differ in seeding strategy; both report local alignments with statistics.</li>
     <li>The Burrows-Wheeler transform powers aligners like BWA for mapping millions of short reads.</li>
+    <li>Everything above, PSI-BLAST included, dates from 1997 or earlier. NCBI's <span class="seq">nr</span> has grown from ~10<sup>5</sup> protein sequences to well past 300 million, so BLAST alone is no longer an adequate picture: DIAMOND and MMseqs2 restore practical speed at that scale, and Foldseek searches by structure rather than sequence.</li>
   </ul>
 
   <div class="pager">

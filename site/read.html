@@ -27,6 +27,13 @@
   .soon { margin-top:22px; border-color:rgba(51,224,210,.35); }
   .soon h3 { font-family:var(--font-display); font-size:1.35rem; margin:10px 0 12px; }
   .soon p { color:var(--ink-soft); margin:0 0 10px; font-size:.95rem; max-width:78ch; }
+  /* the embedded Google Form renders on its own white ground; frame it so it
+     reads as a deliberate panel rather than a hole punched in the dark theme */
+  .formwrap { margin-top:20px; background:#fff; border-radius:14px; padding:6px;
+              overflow:hidden; box-shadow:0 18px 44px -22px rgba(0,0,0,.7); }
+  .formwrap iframe { display:block; border-radius:10px; }
+  .soon .fallback { color:var(--ink-dim); font-size:.85rem; margin:14px 0 0; }
+  .soon .fallback a { color:var(--cyan); }
 </style>
 </head>
 <body>
@@ -142,11 +149,18 @@
     <span class="eyebrow">// Coming soon</span>
     <h3>Self-published, ordered online</h3>
     <p>The Guide is moving to self-publishing, which means printed copies will be orderable online by anyone — no UGent login, no course page, shipped wherever you are.</p>
-    <p>It isn't open yet. If you'd like to know the moment it is, join the waiting list and you'll get <b style="color:var(--ink-soft);">one email</b> when ordering goes live — nothing else, ever.</p>
-    <div class="hero-actions" style="margin-top:22px;">
-      <a href="mailto:wim.vancriekinge@ugent.be?subject=Waiting%20list%20%E2%80%94%20Hitchhiker's%20Guide%20to%20the%20Genome&amp;body=Please%20add%20me%20to%20the%20waiting%20list%20for%20the%20self-published%20edition.%0D%0A%0D%0AName%3A%0D%0ACountry%3A%0D%0ANumber%20of%20copies%20(optional)%3A%0D%0A" class="btn btn-primary">✉ Join the waiting list</a>
-      <a href="hitchhikers-guide-to-the-genome-v2.42.pdf" class="btn btn-ghost" download>Meanwhile, read it free</a>
+    <p>It isn't open yet. If you'd like to know the moment it is, leave your details below and you'll get <b style="color:var(--ink-soft);">one email</b> when ordering goes live — nothing else, ever.</p>
+
+    <div class="formwrap">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLScCFUroKp5gwCuAlXtTfMFjmC0P2zjkgsCkEH7p4uOYenI8cA/viewform?embedded=true"
+        title="Waiting list sign-up for The Hitchhiker's Guide to the Genome"
+        loading="lazy" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
+        Loading the sign-up form…
+      </iframe>
     </div>
+
+    <p class="fallback">Form not loading? <a href="https://docs.google.com/forms/d/e/1FAIpQLScCFUroKp5gwCuAlXtTfMFjmC0P2zjkgsCkEH7p4uOYenI8cA/viewform" target="_blank" rel="noopener">Open it in a new tab ↗</a> or <a href="mailto:wim.vancriekinge@ugent.be?subject=Waiting%20list%20%E2%80%94%20Hitchhiker's%20Guide%20to%20the%20Genome&amp;body=Please%20add%20me%20to%20the%20waiting%20list%20for%20the%20self-published%20edition.%0D%0A%0D%0AName%3A%0D%0ACountry%3A%0D%0ANumber%20of%20copies%20(optional)%3A%0D%0A">email me instead</a>. Meanwhile, <a href="hitchhikers-guide-to-the-genome-v2.42.pdf" download>the full PDF is free</a>.</p>
   </div>
 </div></section>
 

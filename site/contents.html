@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contents — The Hitchhiker's Guide to the Genome</title>
+<meta name="description" content="Chapter-by-chapter overview of The Hitchhiker's Guide to the Genome: databases, alignments, BLAST, phylogenetics, proteins, genomic codecs, industrial bioinformatics and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/>
+      <line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/>
+      <line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/>
+    </svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="contents.html" class="active">Contents</a>
+    <a href="about.html">About</a>
+    <a href="read.html">Read &amp; Order</a>
+    <a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<section style="padding-bottom:30px;"><div class="wrap">
+  <span class="panic">Don't Panic</span>
+  <h2 class="sec" style="margin-top:18px;">What's inside the Guide</h2>
+  <p class="lead">Ten chapters and four appendices take you from the very idea of bioinformatics to genomic foundation models — each with weblems, references and, where it helps, working Python.</p>
+</div></section>
+
+<section style="padding-top:0;"><div class="wrap">
+  <div class="chapters">
+
+    <a class="chap" href="chapter1.html"><div class="num">1</div><div>
+      <h4>Bioinformatics Introduction</h4>
+      <p>What bioinformatics is, its history through three generations of sequencing, and why it matters for medicine, agriculture and the environment.</p>
+      <div class="topics"><span class="tag">history</span><span class="tag">NGS</span><span class="tag">relevance</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter2.html"><div class="num">2</div><div>
+      <h4>Databases</h4>
+      <p>Nucleotide and protein databases, sequence file formats, relational databases, BioSQL, BioMart and a look ahead to NoSQL.</p>
+      <div class="topics"><span class="tag">FASTA</span><span class="tag">BioSQL</span><span class="tag">BioMart</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter3.html"><div class="num">3</div><div>
+      <h4>Score Matrices</h4>
+      <p>Identity vs. similarity, nucleotide and amino-acid scoring, the Twilight Zone, and PAM vs. BLOSUM matrices in practice.</p>
+      <div class="topics"><span class="tag">PAM</span><span class="tag">BLOSUM</span><span class="tag">thresholds</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter4.html"><div class="num">4</div><div>
+      <h4>Alignments</h4>
+      <p>Dot plots, dynamic programming, Needleman-Wunsch (global), Smith-Waterman (local) and multiple sequence alignment.</p>
+      <div class="topics"><span class="tag">dynamic prog.</span><span class="tag">MSA</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter5.html"><div class="num">5</div><div>
+      <h4>Database Searching</h4>
+      <p>BWA and the Burrows-Wheeler transform, SAM/BAM, FASTA, BLAST as a scientific experiment, PSI-BLAST and BLAT.</p>
+      <div class="topics"><span class="tag">BLAST</span><span class="tag">BWA</span><span class="tag">PSI-BLAST</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter6.html"><div class="num">6</div><div>
+      <h4>Phylogenetics</h4>
+      <p>Species concepts, tree structure, molecular clocks, distance / maximum-likelihood / parsimony methods, bootstrapping and horizontal gene transfer.</p>
+      <div class="topics"><span class="tag">trees</span><span class="tag">bootstrap</span><span class="tag">evolution</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter7.html"><div class="num">7</div><div>
+      <h4>Proteins</h4>
+      <p>Why proteins matter, how they fold, protein models and the bridge from sequence to structure.</p>
+      <div class="topics"><span class="tag">folding</span><span class="tag">structure</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter8.html"><div class="num">8</div><div>
+      <h4>Genomic Codecs: HMMs &amp; SCFG</h4>
+      <p>Gene ontologies, gene prediction, Hidden Markov Models (the occasionally dishonest casino), the Chomsky hierarchy, ncRNA and fractal dimension.</p>
+      <div class="topics"><span class="tag">HMM</span><span class="tag">gene prediction</span><span class="tag">ncRNA</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter9.html"><div class="num">9</div><div>
+      <h4>Industrial Bioinformatics</h4>
+      <p>Comparative genomics, computation in drug discovery, drug-likeness, personalized medicine and personal genomics coming of age.</p>
+      <div class="topics"><span class="tag">drug discovery</span><span class="tag">personalized med.</span></div>
+    </div></a>
+
+    <a class="chap" href="chapter10.html"><div class="num">10</div><div>
+      <h4>Epilogue</h4>
+      <p>GC content, CpG and epigenetics, chaos game representation, k-mers, and the rise of AI genomic foundation models.</p>
+      <div class="topics"><span class="tag">k-mers</span><span class="tag">foundation models</span></div>
+    </div></a>
+
+    <div class="chap"><div class="num">A</div><div>
+      <h4>Molecular Biology Cheat Sheet</h4>
+      <p>A quick-reference appendix for the molecular biology you'll keep coming back to.</p>
+    </div></div>
+
+    <div class="chap"><div class="num">B</div><div>
+      <h4>Python for Bioinformatics</h4>
+      <p>Install &amp; configure Python, VS Code, Git and Copilot; "Python in 42 minutes"; Biopython; and the Bioinformatics Programming Challenge.</p>
+      <div class="topics"><span class="tag">Python</span><span class="tag">Biopython</span><span class="tag">BPC</span></div>
+    </div></div>
+
+    <div class="chap"><div class="num">C</div><div>
+      <h4>Visualization in Bioinformatics</h4>
+      <p>The grammar of graphics, ggplot, and visualization for sequences, macromolecules and systems biology.</p>
+      <div class="topics"><span class="tag">ggplot</span><span class="tag">dataviz</span></div>
+    </div></div>
+
+    <div class="chap"><div class="num">D</div><div>
+      <h4>Collaborative Writing</h4>
+      <p>The roles, tools and conventions behind writing this book together with students using Overleaf and generative AI.</p>
+      <div class="topics"><span class="tag">Overleaf</span><span class="tag">workflow</span></div>
+    </div></div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:48px;">
+    <a href="read.html" class="btn btn-primary">📖 Start reading free</a>
+    <a href="read.html#order" class="btn btn-magenta" style="margin-left:10px;">🚀 Order a copy</a>
+  </div>
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <div class="footer-grid">
+    <div>
+      <a class="brand" href="index.html" style="margin-bottom:14px;">
+        <span><b>The Hitchhiker's Guide to the Genome</b><small>Don't Panic</small></span>
+      </a>
+      <p class="muted">A mostly harmless bioinformatics textbook by Prof. Dr. ir. Wim Van Criekinge. Faculty of Bioscience Engineering, Ghent University. Released under the Artistic License for Written Works.</p>
+    </div>
+    <div>
+      <h5>Explore</h5>
+      <a href="index.html">Home</a>
+      <a href="contents.html">Contents</a>
+      <a href="about.html">About the author</a>
+      <a href="read.html">Read &amp; Order</a>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <a href="mailto:wim.vancriekinge@ugent.be">wim.vancriekinge@ugent.be</a>
+      <a href="https://www.ugent.be" target="_blank" rel="noopener">Ghent University</a>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:34px;">© 2025–2026 Wim Van Criekinge · Version 1.50 · Free to copy, share and modify with attribution.</p>
+</div></footer>
+
+</body>
+</html>

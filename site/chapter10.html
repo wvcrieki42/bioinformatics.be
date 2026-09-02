@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.10 · Epilogue — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">10</span> Epilogue · So long, and thanks for all the reads</span>
+  <h1>Epilogue</h1>
+  <p class="intro">From the simplest signal — GC content — up through CpG, k-mers and chaos-game pictures of DNA, to the AI foundation models now learning the language of the genome.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">⚖️</div><h4>GC content (k=1)</h4><p>The simplest genomic statistic — the fraction of G+C, varying across organisms and regions.</p></div>
+    <div class="concept"><div class="ic">🔁</div><h4>CpG &amp; k-mers</h4><p>From the shortest palindrome enabling epigenetics up to generic k-mer signatures.</p></div>
+    <div class="concept"><div class="ic">🤖</div><h4>Foundation models</h4><p>AI trained on vast sequence corpora is becoming a new lens on genomics.</p></div>
+  </div>
+
+  <!-- VISUAL 1: k-mer escalation -->
+  <div class="viz viz-full">
+    <h3>From GC-content to k-mers</h3>
+    <p class="cap">As k grows, the feature space explodes — and captures ever more sequence context.</p>
+    <svg viewBox="0 0 880 220" xmlns="http://www.w3.org/2000/svg">
+      <g text-anchor="middle">
+        <rect x="50" y="60" width="120" height="90" rx="10" fill="#33e0d2" fill-opacity="0.16" stroke="#33e0d2"/>
+        <text x="110" y="95" fill="#33e0d2" font-size="16" font-weight="700">k = 1</text>
+        <text x="110" y="118" fill="#aeb8e6" font-size="12">GC content</text>
+        <text x="110" y="138" fill="#6f7bb0" font-size="11">4 features</text>
+
+        <rect x="250" y="50" width="130" height="110" rx="10" fill="#8a7bff" fill-opacity="0.16" stroke="#8a7bff"/>
+        <text x="315" y="90" fill="#8a7bff" font-size="16" font-weight="700">k = 2</text>
+        <text x="315" y="113" fill="#aeb8e6" font-size="12">CpG, dinucleotides</text>
+        <text x="315" y="133" fill="#6f7bb0" font-size="11">16 features</text>
+
+        <rect x="460" y="40" width="140" height="130" rx="10" fill="#ff5d9e" fill-opacity="0.16" stroke="#ff5d9e"/>
+        <text x="530" y="85" fill="#ff5d9e" font-size="16" font-weight="700">k = 3</text>
+        <text x="530" y="108" fill="#aeb8e6" font-size="12">codons</text>
+        <text x="530" y="128" fill="#6f7bb0" font-size="11">64 features</text>
+
+        <rect x="680" y="30" width="150" height="150" rx="10" fill="#ffd447" fill-opacity="0.16" stroke="#ffd447"/>
+        <text x="755" y="80" fill="#ffd447" font-size="16" font-weight="700">k &gt; 3</text>
+        <text x="755" y="103" fill="#aeb8e6" font-size="12">signatures</text>
+        <text x="755" y="123" fill="#6f7bb0" font-size="11">4ᵏ features</text>
+      </g>
+      <g stroke="#6f7bb0" stroke-width="1.5"><line x1="170" y1="105" x2="248" y2="105"/><line x1="380" y1="105" x2="458" y2="105"/><line x1="600" y1="105" x2="678" y2="105"/></g>
+    </svg>
+  </div>
+
+  <!-- VISUAL 2: Chaos Game Representation + AI -->
+  <div class="viz-grid">
+    <div class="viz">
+      <h3>Chaos Game Representation</h3>
+      <p class="cap">Map a sequence into a square whose corners are A, C, G, T — patterns become pictures.</p>
+      <svg viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="25" width="180" height="180" fill="#0a0e2a" stroke="#6f7bb0"/>
+        <text x="20" y="20" fill="#33e0d2" font-size="12">A</text>
+        <text x="208" y="20" fill="#ffd447" font-size="12">C</text>
+        <text x="20" y="222" fill="#ff5d9e" font-size="12">G</text>
+        <text x="208" y="222" fill="#8a7bff" font-size="12">T</text>
+        <g fill="#33e0d2">
+          <circle cx="70" cy="70" r="2"/><circle cx="150" cy="60" r="2"/><circle cx="90" cy="140" r="2"/><circle cx="170" cy="120" r="2"/><circle cx="55" cy="170" r="2"/><circle cx="120" cy="95" r="2"/><circle cx="160" cy="170" r="2"/><circle cx="100" cy="50" r="2"/><circle cx="135" cy="150" r="2"/><circle cx="80" cy="110" r="2"/><circle cx="180" cy="80" r="2"/><circle cx="60" cy="120" r="2"/><circle cx="145" cy="110" r="2"/><circle cx="110" cy="175" r="2"/><circle cx="95" cy="85" r="2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="viz">
+      <h3>Genomic foundation models</h3>
+      <p class="cap">Sequence in, learned representation out — the rising AI layer over genomics.</p>
+      <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="120" fill="#33e0d2" font-size="14" class="seq">ACGT…</text>
+        <rect x="100" y="70" width="120" height="100" rx="12" fill="#8a7bff" fill-opacity="0.18" stroke="#8a7bff"/>
+        <text x="160" y="115" fill="#e8ecff" font-size="13" text-anchor="middle">Transformer</text>
+        <text x="160" y="135" fill="#aeb8e6" font-size="11" text-anchor="middle">self-attention</text>
+        <text x="245" y="105" fill="#ff5d9e" font-size="12">function?</text>
+        <text x="245" y="128" fill="#ff5d9e" font-size="12">variant effect?</text>
+        <text x="245" y="151" fill="#ff5d9e" font-size="12">regulation?</text>
+        <g stroke="#6f7bb0" stroke-width="1.5"><line x1="65" y1="115" x2="98" y2="115"/><line x1="222" y1="115" x2="240" y2="115"/></g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="panel-box" style="text-align:center; margin-top:46px; padding:48px 30px;">
+    <p class="quote" style="max-width:30ch;">You've reached the end of the Guide. <span class="glow">Don't Panic</span> — the genome is just getting started.</p>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>Simple statistics like GC content already carry biological signal.</li>
+    <li>CpG dinucleotides underpin epigenetic regulation; k-mers generalise the idea.</li>
+    <li>Chaos Game Representation turns sequence composition into recognisable visual patterns.</li>
+    <li>AI foundation models are an emerging, powerful way to learn the genome's language.</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev" href="chapter9.html"><small>← Previous</small><b>9 · Industrial Bioinformatics</b></a>
+    <a class="next" href="contents.html"><small>Next →</small><b>Back to all chapters</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

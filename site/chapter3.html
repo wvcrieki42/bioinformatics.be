@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.3 · Score Matrices — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">03</span> Chapter Three</span>
+  <h1>Score Matrices</h1>
+  <p class="intro">How do you score a match between two residues? Substitution matrices encode which swaps evolution tolerates — the difference between identity and true similarity.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">🎯</div><h4>Identity vs. similarity</h4><p>Two sequences can be similar without being identical — conservative substitutions still preserve function.</p></div>
+    <div class="concept"><div class="ic">🧮</div><h4>PAM &amp; BLOSUM</h4><p>Two families of matrices, derived differently: PAM from evolutionary models, BLOSUM from conserved blocks.</p></div>
+    <div class="concept"><div class="ic">🌒</div><h4>The Twilight Zone</h4><p>Below ~20–25% identity, homology becomes hard to distinguish from chance.</p></div>
+  </div>
+
+  <!-- VISUAL 1: substitution matrix heatmap -->
+  <div class="viz viz-full">
+    <h3>A substitution matrix, visualised</h3>
+    <p class="cap">Positive scores (cyan) reward likely substitutions; negatives (magenta) penalise unlikely ones. Diagonal = identical residues.</p>
+    <svg viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg">
+      <!-- labels -->
+      <g fill="#aeb8e6" font-size="13" text-anchor="middle">
+        <text x="90" y="40">A</text><text x="150" y="40">R</text><text x="210" y="40">N</text><text x="270" y="40">D</text><text x="330" y="40">C</text><text x="390" y="40">Q</text><text x="450" y="40">E</text>
+      </g>
+      <g fill="#aeb8e6" font-size="13" text-anchor="middle">
+        <text x="40" y="78">A</text><text x="40" y="138">R</text><text x="40" y="198">N</text><text x="40" y="258">D</text><text x="40" y="318">C</text>
+      </g>
+      <!-- row A: 4 -1 -2 -2 0 -1 -1 -->
+      <g>
+        <rect x="65" y="55" width="50" height="50" fill="#33e0d2" fill-opacity="0.85"/><text x="90" y="86" fill="#04201e" font-size="14" text-anchor="middle" font-weight="700">4</text>
+        <rect x="125" y="55" width="50" height="50" fill="#ff5d9e" fill-opacity="0.35"/><text x="150" y="86" fill="#e8ecff" font-size="13" text-anchor="middle">-1</text>
+        <rect x="185" y="55" width="50" height="50" fill="#ff5d9e" fill-opacity="0.5"/><text x="210" y="86" fill="#e8ecff" font-size="13" text-anchor="middle">-2</text>
+        <rect x="245" y="55" width="50" height="50" fill="#ff5d9e" fill-opacity="0.5"/><text x="270" y="86" fill="#e8ecff" font-size="13" text-anchor="middle">-2</text>
+        <rect x="305" y="55" width="50" height="50" fill="#1b2461"/><text x="330" y="86" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+        <rect x="365" y="55" width="50" height="50" fill="#ff5d9e" fill-opacity="0.35"/><text x="390" y="86" fill="#e8ecff" font-size="13" text-anchor="middle">-1</text>
+        <rect x="425" y="55" width="50" height="50" fill="#ff5d9e" fill-opacity="0.35"/><text x="450" y="86" fill="#e8ecff" font-size="13" text-anchor="middle">-1</text>
+      </g>
+      <!-- row R -->
+      <g>
+        <rect x="65" y="115" width="50" height="50" fill="#ff5d9e" fill-opacity="0.35"/><text x="90" y="146" fill="#e8ecff" font-size="13" text-anchor="middle">-1</text>
+        <rect x="125" y="115" width="50" height="50" fill="#33e0d2" fill-opacity="0.9"/><text x="150" y="146" fill="#04201e" font-size="14" text-anchor="middle" font-weight="700">5</text>
+        <rect x="185" y="115" width="50" height="50" fill="#1b2461"/><text x="210" y="146" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+        <rect x="245" y="115" width="50" height="50" fill="#ff5d9e" fill-opacity="0.5"/><text x="270" y="146" fill="#e8ecff" font-size="13" text-anchor="middle">-2</text>
+        <rect x="305" y="115" width="50" height="50" fill="#ff5d9e" fill-opacity="0.6"/><text x="330" y="146" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="365" y="115" width="50" height="50" fill="#33e0d2" fill-opacity="0.4"/><text x="390" y="146" fill="#04201e" font-size="13" text-anchor="middle">1</text>
+        <rect x="425" y="115" width="50" height="50" fill="#1b2461"/><text x="450" y="146" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+      </g>
+      <!-- row N -->
+      <g>
+        <rect x="65" y="175" width="50" height="50" fill="#ff5d9e" fill-opacity="0.5"/><text x="90" y="206" fill="#e8ecff" font-size="13" text-anchor="middle">-2</text>
+        <rect x="125" y="175" width="50" height="50" fill="#1b2461"/><text x="150" y="206" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+        <rect x="185" y="175" width="50" height="50" fill="#33e0d2" fill-opacity="0.9"/><text x="210" y="206" fill="#04201e" font-size="14" text-anchor="middle" font-weight="700">6</text>
+        <rect x="245" y="175" width="50" height="50" fill="#33e0d2" fill-opacity="0.4"/><text x="270" y="206" fill="#04201e" font-size="13" text-anchor="middle">1</text>
+        <rect x="305" y="175" width="50" height="50" fill="#ff5d9e" fill-opacity="0.6"/><text x="330" y="206" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="365" y="175" width="50" height="50" fill="#1b2461"/><text x="390" y="206" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+        <rect x="425" y="175" width="50" height="50" fill="#1b2461"/><text x="450" y="206" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+      </g>
+      <!-- row D -->
+      <g>
+        <rect x="65" y="235" width="50" height="50" fill="#ff5d9e" fill-opacity="0.5"/><text x="90" y="266" fill="#e8ecff" font-size="13" text-anchor="middle">-2</text>
+        <rect x="125" y="235" width="50" height="50" fill="#ff5d9e" fill-opacity="0.5"/><text x="150" y="266" fill="#e8ecff" font-size="13" text-anchor="middle">-2</text>
+        <rect x="185" y="235" width="50" height="50" fill="#33e0d2" fill-opacity="0.4"/><text x="210" y="266" fill="#04201e" font-size="13" text-anchor="middle">1</text>
+        <rect x="245" y="235" width="50" height="50" fill="#33e0d2" fill-opacity="0.9"/><text x="270" y="266" fill="#04201e" font-size="14" text-anchor="middle" font-weight="700">6</text>
+        <rect x="305" y="235" width="50" height="50" fill="#ff5d9e" fill-opacity="0.7"/><text x="330" y="266" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="365" y="235" width="50" height="50" fill="#1b2461"/><text x="390" y="266" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+        <rect x="425" y="235" width="50" height="50" fill="#33e0d2" fill-opacity="0.4"/><text x="450" y="266" fill="#04201e" font-size="13" text-anchor="middle">2</text>
+      </g>
+      <!-- row C -->
+      <g>
+        <rect x="65" y="295" width="50" height="50" fill="#1b2461"/><text x="90" y="326" fill="#e8ecff" font-size="13" text-anchor="middle">0</text>
+        <rect x="125" y="295" width="50" height="50" fill="#ff5d9e" fill-opacity="0.6"/><text x="150" y="326" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="185" y="295" width="50" height="50" fill="#ff5d9e" fill-opacity="0.6"/><text x="210" y="326" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="245" y="295" width="50" height="50" fill="#ff5d9e" fill-opacity="0.7"/><text x="270" y="326" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="305" y="295" width="50" height="50" fill="#33e0d2"/><text x="330" y="326" fill="#04201e" font-size="14" text-anchor="middle" font-weight="700">9</text>
+        <rect x="365" y="295" width="50" height="50" fill="#ff5d9e" fill-opacity="0.6"/><text x="390" y="326" fill="#e8ecff" font-size="13" text-anchor="middle">-3</text>
+        <rect x="425" y="295" width="50" height="50" fill="#ff5d9e" fill-opacity="0.7"/><text x="450" y="326" fill="#e8ecff" font-size="13" text-anchor="middle">-4</text>
+      </g>
+      <!-- legend -->
+      <text x="500" y="120" fill="#33e0d2" font-size="12">＋ favourable</text>
+      <text x="500" y="300" fill="#ff5d9e" font-size="12">－ unfavourable</text>
+    </svg>
+  </div>
+
+  <!-- VISUAL 2: twilight zone -->
+  <div class="viz viz-full">
+    <h3>The Twilight Zone</h3>
+    <p class="cap">As alignment length grows, the % identity needed to be confident of homology drops — below the curve lies uncertainty.</p>
+    <svg viewBox="0 0 880 260" xmlns="http://www.w3.org/2000/svg">
+      <line x1="60" y1="30" x2="60" y2="220" stroke="#6f7bb0"/>
+      <line x1="60" y1="220" x2="840" y2="220" stroke="#6f7bb0"/>
+      <text x="30" y="120" fill="#aeb8e6" font-size="12" transform="rotate(-90 30 120)" text-anchor="middle">% identity</text>
+      <text x="450" y="250" fill="#aeb8e6" font-size="12" text-anchor="middle">alignment length →</text>
+      <path d="M80,60 C200,90 320,140 840,165" fill="none" stroke="#33e0d2" stroke-width="3"/>
+      <rect x="60" y="165" width="780" height="55" fill="#ff5d9e" fill-opacity="0.12"/>
+      <text x="450" y="200" fill="#ff5d9e" font-size="14" text-anchor="middle">Twilight Zone — homology hard to detect</text>
+      <text x="220" y="85" fill="#51e08a" font-size="13">safe homology</text>
+    </svg>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>Substitution matrices score residue pairs by how often evolution swaps them.</li>
+    <li>Positive scores reward conservative changes; the diagonal rewards identity.</li>
+    <li>PAM is built from an evolutionary model; BLOSUM from blocks of conserved alignments.</li>
+    <li>Below the Twilight Zone (~20–25% identity), distinguishing homology from chance gets risky.</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev" href="chapter2.html"><small>← Previous</small><b>2 · Databases</b></a>
+    <a class="next" href="chapter4.html"><small>Next →</small><b>4 · Alignments</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

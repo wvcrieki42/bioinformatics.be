@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.1 · Bioinformatics Introduction — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">01</span> Chapter One · Don't Panic</span>
+  <h1>Bioinformatics Introduction</h1>
+  <p class="intro">Where biology meets computation. From the first need to read DNA by hand to machines that sequence billions of bases overnight — and why all of it matters for medicine, food and the planet.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">🧪</div><h4>What is bioinformatics?</h4><p>The discipline at the intersection of biology, computer science and statistics — turning sequence into knowledge.</p></div>
+    <div class="concept"><div class="ic">📈</div><h4>A data explosion</h4><p>Sequencing got exponentially cheaper, outpacing Moore's law and creating a golden age of biology.</p></div>
+    <div class="concept"><div class="ic">🌍</div><h4>Why it matters</h4><p>Diagnostics, drug design, crops, conservation — computation now underpins the life sciences.</p></div>
+  </div>
+
+  <!-- VISUAL 1: three generations timeline -->
+  <div class="viz viz-full">
+    <h3>Three generations of sequencing</h3>
+    <p class="cap">How we learned to read the genome — faster, longer, cheaper.</p>
+    <svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="150" x2="860" y2="150" stroke="#33e0d2" stroke-width="2"/>
+      <!-- gen 1 -->
+      <circle cx="170" cy="150" r="8" fill="#33e0d2"/>
+      <text x="170" y="120" fill="#e8ecff" font-size="15" text-anchor="middle" font-weight="600">Sanger</text>
+      <text x="170" y="100" fill="#6f7bb0" font-size="12" text-anchor="middle">1977</text>
+      <text x="170" y="185" fill="#aeb8e6" font-size="11.5" text-anchor="middle">chain-termination</text>
+      <text x="170" y="202" fill="#aeb8e6" font-size="11.5" text-anchor="middle">~700 bp reads</text>
+      <!-- gen 2 -->
+      <circle cx="450" cy="150" r="8" fill="#8a7bff"/>
+      <text x="450" y="120" fill="#e8ecff" font-size="15" text-anchor="middle" font-weight="600">NGS (2nd gen)</text>
+      <text x="450" y="100" fill="#6f7bb0" font-size="12" text-anchor="middle">~2005</text>
+      <text x="450" y="185" fill="#aeb8e6" font-size="11.5" text-anchor="middle">massively parallel</text>
+      <text x="450" y="202" fill="#aeb8e6" font-size="11.5" text-anchor="middle">short reads, huge throughput</text>
+      <!-- gen 3 -->
+      <circle cx="730" cy="150" r="8" fill="#ff5d9e"/>
+      <text x="730" y="120" fill="#e8ecff" font-size="15" text-anchor="middle" font-weight="600">Long-read (3rd gen)</text>
+      <text x="730" y="100" fill="#6f7bb0" font-size="12" text-anchor="middle">~2011+</text>
+      <text x="730" y="185" fill="#aeb8e6" font-size="11.5" text-anchor="middle">PacBio · Nanopore</text>
+      <text x="730" y="202" fill="#aeb8e6" font-size="11.5" text-anchor="middle">single-molecule, very long</text>
+      <!-- read length bars -->
+      <rect x="150" y="232" width="14" height="14" rx="2" fill="#33e0d2"/>
+      <rect x="430" y="232" width="40" height="14" rx="2" fill="#8a7bff"/>
+      <rect x="690" y="232" width="80" height="14" rx="2" fill="#ff5d9e"/>
+      <text x="450" y="270" fill="#6f7bb0" font-size="11" text-anchor="middle">relative throughput per run →</text>
+    </svg>
+  </div>
+
+  <!-- VISUAL 2: venn + cost curve -->
+  <div class="viz-grid">
+    <div class="viz">
+      <h3>A field of three circles</h3>
+      <p class="cap">Bioinformatics lives where biology, computing and statistics overlap.</p>
+      <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="130" cy="110" r="80" fill="#33e0d2" fill-opacity="0.22" stroke="#33e0d2"/>
+        <circle cx="190" cy="110" r="80" fill="#8a7bff" fill-opacity="0.22" stroke="#8a7bff"/>
+        <circle cx="160" cy="165" r="80" fill="#ff5d9e" fill-opacity="0.20" stroke="#ff5d9e"/>
+        <text x="95" y="95" fill="#e8ecff" font-size="13" text-anchor="middle">Biology</text>
+        <text x="228" y="95" fill="#e8ecff" font-size="13" text-anchor="middle">Computer</text>
+        <text x="228" y="111" fill="#e8ecff" font-size="13" text-anchor="middle">science</text>
+        <text x="160" y="210" fill="#e8ecff" font-size="13" text-anchor="middle">Statistics</text>
+        <text x="160" y="130" fill="#050715" font-size="12" text-anchor="middle" font-weight="700">bioinfo</text>
+      </svg>
+    </div>
+    <div class="viz">
+      <h3>The cost of a genome</h3>
+      <p class="cap">Per-genome cost fell faster than computing got cheaper.</p>
+      <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="30" x2="40" y2="220" stroke="#6f7bb0" stroke-width="1.5"/>
+        <line x1="40" y1="220" x2="300" y2="220" stroke="#6f7bb0" stroke-width="1.5"/>
+        <text x="40" y="20" fill="#6f7bb0" font-size="10" text-anchor="middle">$</text>
+        <text x="300" y="240" fill="#6f7bb0" font-size="10" text-anchor="end">time →</text>
+        <polyline points="55,45 110,70 150,150 200,195 260,210 290,212" fill="none" stroke="#ff5d9e" stroke-width="3" stroke-linecap="round"/>
+        <polyline points="55,90 110,110 170,140 230,165 290,185" fill="none" stroke="#33e0d2" stroke-width="2.5" stroke-dasharray="5 5" stroke-linecap="round"/>
+        <text x="120" y="60" fill="#ff5d9e" font-size="11">sequencing cost</text>
+        <text x="150" y="128" fill="#33e0d2" font-size="11">Moore's law</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>Bioinformatics is the computational discipline that makes sense of biological sequence and structure data.</li>
+    <li>Three sequencing generations — Sanger, NGS, and long-read — each changed what questions we could ask.</li>
+    <li>Falling sequencing costs outpaced Moore's law, triggering today's data-rich "golden age of biology."</li>
+    <li>Its impact spans medicine, agriculture, environmental conservation and fundamental research.</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev disabled" href="#"><small>← Previous</small><b>Start of the Guide</b></a>
+    <a class="next" href="chapter2.html"><small>Next →</small><b>2 · Databases</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

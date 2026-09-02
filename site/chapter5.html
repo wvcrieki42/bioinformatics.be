@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.5 · Database Searching — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">05</span> Chapter Five</span>
+  <h1>Database Searching</h1>
+  <p class="intro">You have a sequence; the database has millions. BLAST, FASTA and BWA find the needles fast — by seeding on short words and extending the promising hits, with statistics to tell signal from noise.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">⚡</div><h4>Seed &amp; extend</h4><p>BLAST finds short exact "word" matches, then extends them into high-scoring pairs.</p></div>
+    <div class="concept"><div class="ic">📐</div><h4>The E-value</h4><p>How many hits this good you'd expect by chance — the lower, the more significant.</p></div>
+    <div class="concept"><div class="ic">🧬</div><h4>BWA &amp; the BWT</h4><p>The Burrows-Wheeler transform indexes a genome so short reads map in a flash.</p></div>
+  </div>
+
+  <!-- VISUAL 1: seed and extend -->
+  <div class="viz viz-full">
+    <h3>How BLAST works: seed, then extend</h3>
+    <p class="cap">A query is broken into words; exact word hits in the database seed local alignments that extend until the score drops.</p>
+    <svg viewBox="0 0 880 250" xmlns="http://www.w3.org/2000/svg">
+      <text x="40" y="50" fill="#aeb8e6" font-size="13">query</text>
+      <text x="40" y="120" fill="#aeb8e6" font-size="13">database</text>
+      <!-- query seq -->
+      <g class="seq" font-size="17" fill="#8a7bff">
+        <text x="120" y="52">M K T A</text><text x="230" y="52" fill="#ffd447" font-weight="700">Y F P</text><text x="320" y="52">H F D L</text>
+      </g>
+      <!-- db seq -->
+      <g class="seq" font-size="17" fill="#33e0d2">
+        <text x="120" y="122">L K T S</text><text x="230" y="122" fill="#ffd447" font-weight="700">Y F P</text><text x="320" y="122">H S D I</text>
+      </g>
+      <!-- word seed box -->
+      <rect x="222" y="32" width="86" height="100" rx="6" fill="#ffd447" fill-opacity="0.12" stroke="#ffd447"/>
+      <text x="265" y="155" fill="#ffd447" font-size="12" text-anchor="middle">① word hit (seed)</text>
+      <!-- extension arrows -->
+      <line x1="222" y1="180" x2="120" y2="180" stroke="#ff5d9e" stroke-width="2.5"/>
+      <line x1="308" y1="180" x2="410" y2="180" stroke="#ff5d9e" stroke-width="2.5"/>
+      <text x="265" y="200" fill="#ff5d9e" font-size="12" text-anchor="middle">② extend both directions until score drops →  HSP</text>
+      <!-- score profile -->
+      <polyline points="120,235 230,210 265,200 300,210 410,235" fill="none" stroke="#33e0d2" stroke-width="2" />
+    </svg>
+  </div>
+
+  <!-- VISUAL 2: E-value distribution + BWT -->
+  <div class="viz-grid">
+    <div class="viz">
+      <h3>Significance: where does your hit fall?</h3>
+      <p class="cap">Scores from random hits follow an extreme-value distribution; a real hit sits far in the tail.</p>
+      <svg viewBox="0 0 320 250" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="30" x2="40" y2="210" stroke="#6f7bb0"/>
+        <line x1="40" y1="210" x2="300" y2="210" stroke="#6f7bb0"/>
+        <path d="M40,210 C90,210 110,60 150,60 C190,60 210,205 300,209" fill="#8a7bff" fill-opacity="0.18" stroke="#8a7bff" stroke-width="2"/>
+        <line x1="265" y1="60" x2="265" y2="210" stroke="#33e0d2" stroke-width="2.5" stroke-dasharray="4 4"/>
+        <circle cx="265" cy="195" r="6" fill="#33e0d2"/>
+        <text x="265" y="50" fill="#33e0d2" font-size="12" text-anchor="middle">your hit</text>
+        <text x="150" y="195" fill="#aeb8e6" font-size="11" text-anchor="middle">random scores</text>
+        <text x="170" y="240" fill="#6f7bb0" font-size="11" text-anchor="middle">alignment score →</text>
+      </svg>
+    </div>
+    <div class="viz">
+      <h3>The Burrows-Wheeler transform</h3>
+      <p class="cap">Reversible reordering that clusters characters — the basis of fast read mapping in BWA.</p>
+      <svg viewBox="0 0 320 250" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="40" fill="#aeb8e6" font-size="13">text</text>
+        <text x="120" y="40" fill="#8a7bff" font-size="18" class="seq">GENOME$</text>
+        <text x="160" y="120" fill="#6f7bb0" font-size="28" text-anchor="middle">↓</text>
+        <text x="50" y="100" fill="#6f7bb0" font-size="11">sort rotations</text>
+        <text x="20" y="180" fill="#aeb8e6" font-size="13">BWT</text>
+        <text x="120" y="180" fill="#33e0d2" font-size="18" class="seq">EMON$EG</text>
+        <text x="160" y="220" fill="#6f7bb0" font-size="11" text-anchor="middle">compresses &amp; indexes for O(1) lookups</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>BLAST trades guaranteed optimality for speed using a seed-and-extend heuristic.</li>
+    <li>The E-value reports how many equally good hits you'd expect by chance — treat a search like an experiment.</li>
+    <li>FASTA and BLAST differ in seeding strategy; both report local alignments with statistics.</li>
+    <li>The Burrows-Wheeler transform powers aligners like BWA for mapping millions of short reads.</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev" href="chapter4.html"><small>← Previous</small><b>4 · Alignments</b></a>
+    <a class="next" href="chapter6.html"><small>Next →</small><b>6 · Phylogenetics</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

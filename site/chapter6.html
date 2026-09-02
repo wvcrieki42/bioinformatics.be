@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.6 · Phylogenetics — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">06</span> Chapter Six</span>
+  <h1>Phylogenetics</h1>
+  <p class="intro">Reconstruct the tree of life from sequence. Trees encode shared ancestry; molecular clocks date the branches; and bootstrapping tells you how much to trust them.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">🌳</div><h4>Reading a tree</h4><p>Tips are taxa, internal nodes are common ancestors, branch lengths can mean time or change.</p></div>
+    <div class="concept"><div class="ic">⏱️</div><h4>Molecular clock</h4><p>If mutations accumulate steadily, sequence divergence becomes a clock for dating splits.</p></div>
+    <div class="concept"><div class="ic">🎲</div><h4>Bootstrap support</h4><p>Resample the alignment many times; how often a branch reappears measures confidence.</p></div>
+  </div>
+
+  <!-- VISUAL 1: phylogenetic tree -->
+  <div class="viz viz-full">
+    <h3>A rooted phylogenetic tree</h3>
+    <p class="cap">Shared branches mean shared ancestry. Numbers on nodes are bootstrap support (%).</p>
+    <svg viewBox="0 0 820 320" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#33e0d2" stroke-width="3" fill="none" stroke-linecap="round">
+        <!-- root -->
+        <line x1="40" y1="160" x2="130" y2="160"/>
+        <line x1="130" y1="70" x2="130" y2="250"/>
+        <!-- upper clade -->
+        <line x1="130" y1="70" x2="250" y2="70"/>
+        <line x1="250" y1="40" x2="250" y2="100"/>
+        <line x1="250" y1="40" x2="600" y2="40"/>
+        <line x1="250" y1="100" x2="600" y2="100"/>
+        <!-- lower clade -->
+        <line x1="130" y1="250" x2="330" y2="250"/>
+        <line x1="330" y1="200" x2="330" y2="290"/>
+        <line x1="330" y1="200" x2="600" y2="200"/>
+        <line x1="330" y1="290" x2="600" y2="290"/>
+      </g>
+      <!-- nodes -->
+      <g fill="#ffd447" font-size="12">
+        <circle cx="130" cy="160" r="4" fill="#8a7bff"/>
+        <circle cx="250" cy="70" r="4" fill="#8a7bff"/><text x="240" y="64">98</text>
+        <circle cx="330" cy="250" r="4" fill="#8a7bff"/><text x="320" y="244">72</text>
+      </g>
+      <!-- tips -->
+      <g fill="#e8ecff" font-size="15">
+        <circle cx="600" cy="40" r="6" fill="#33e0d2"/><text x="615" y="45">Human</text>
+        <circle cx="600" cy="100" r="6" fill="#33e0d2"/><text x="615" y="105">Chimpanzee</text>
+        <circle cx="600" cy="200" r="6" fill="#ff5d9e"/><text x="615" y="205">Mouse</text>
+        <circle cx="600" cy="290" r="6" fill="#ff5d9e"/><text x="615" y="295">Chicken (outgroup)</text>
+      </g>
+      <text x="40" y="300" fill="#6f7bb0" font-size="11">root</text>
+    </svg>
+  </div>
+
+  <!-- VISUAL 2: methods + bootstrap -->
+  <div class="viz-grid">
+    <div class="viz">
+      <h3>Three ways to build a tree</h3>
+      <p class="cap">Different optimality criteria, different trade-offs.</p>
+      <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="30" width="280" height="50" rx="10" fill="#33e0d2" fill-opacity="0.14" stroke="#33e0d2"/>
+        <text x="35" y="52" fill="#33e0d2" font-size="14" font-weight="600">Distance (NJ)</text>
+        <text x="35" y="70" fill="#aeb8e6" font-size="11">fast · from a distance matrix</text>
+        <rect x="20" y="92" width="280" height="50" rx="10" fill="#8a7bff" fill-opacity="0.14" stroke="#8a7bff"/>
+        <text x="35" y="114" fill="#8a7bff" font-size="14" font-weight="600">Maximum Likelihood</text>
+        <text x="35" y="132" fill="#aeb8e6" font-size="11">model-based · statistically rigorous</text>
+        <rect x="20" y="154" width="280" height="50" rx="10" fill="#ff5d9e" fill-opacity="0.14" stroke="#ff5d9e"/>
+        <text x="35" y="176" fill="#ff5d9e" font-size="14" font-weight="600">Maximum Parsimony</text>
+        <text x="35" y="194" fill="#aeb8e6" font-size="11">fewest evolutionary changes</text>
+      </svg>
+    </div>
+    <div class="viz">
+      <h3>Bootstrapping</h3>
+      <p class="cap">Resample columns → rebuild tree → count how often each branch recurs.</p>
+      <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg">
+        <g class="seq" font-size="13" fill="#aeb8e6"><text x="20" y="40">A C G T A</text></g>
+        <text x="150" y="40" fill="#6f7bb0" font-size="18">→</text>
+        <g class="seq" font-size="13" fill="#33e0d2"><text x="185" y="40">C C G A A</text></g>
+        <g class="seq" font-size="13" fill="#33e0d2"><text x="185" y="65">A A G T T</text></g>
+        <g class="seq" font-size="13" fill="#33e0d2"><text x="185" y="90">C G T A A</text></g>
+        <text x="20" y="130" fill="#aeb8e6" font-size="12">100 replicates →</text>
+        <rect x="20" y="150" width="200" height="20" rx="10" fill="#1b2461"/>
+        <rect x="20" y="150" width="190" height="20" rx="10" fill="#51e08a"/>
+        <text x="240" y="165" fill="#51e08a" font-size="13">95%</text>
+        <rect x="20" y="185" width="200" height="20" rx="10" fill="#1b2461"/>
+        <rect x="20" y="185" width="120" height="20" rx="10" fill="#ffd447"/>
+        <text x="240" y="200" fill="#ffd447" font-size="13">60%</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>Phylogenetic trees represent hypotheses of shared ancestry, not certainties.</li>
+    <li>An outgroup roots the tree and orients the direction of evolution.</li>
+    <li>Distance, maximum-likelihood and parsimony methods trade speed for rigour differently.</li>
+    <li>Bootstrap values quantify how strongly the data support each branch.</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev" href="chapter5.html"><small>← Previous</small><b>5 · Database Searching</b></a>
+    <a class="next" href="chapter7.html"><small>Next →</small><b>7 · Proteins</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.4 · Alignments — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">04</span> Chapter Four</span>
+  <h1>Alignments</h1>
+  <p class="intro">Line two sequences up to reveal what they share. Dot plots show the picture; dynamic programming — Needleman-Wunsch and Smith-Waterman — finds the optimal alignment, guaranteed.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">🔵</div><h4>Dot plots</h4><p>A visual first look: dots where two sequences match, diagonals where they align.</p></div>
+    <div class="concept"><div class="ic">🧩</div><h4>Dynamic programming</h4><p>Build the optimal alignment from optimal sub-alignments — fill a matrix, then trace back.</p></div>
+    <div class="concept"><div class="ic">🌐</div><h4>Global vs. local</h4><p>Needleman-Wunsch aligns end-to-end; Smith-Waterman finds the best matching region.</p></div>
+  </div>
+
+  <!-- VISUAL 1: dot plot -->
+  <div class="viz-grid">
+    <div class="viz">
+      <h3>Dot plot</h3>
+      <p class="cap">A diagonal line of dots reveals a conserved region between two sequences.</p>
+      <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+        <g class="seq" fill="#aeb8e6" font-size="11" text-anchor="middle">
+          <text x="60" y="22">G</text><text x="90" y="22">A</text><text x="120" y="22">T</text><text x="150" y="22">T</text><text x="180" y="22">A</text><text x="210" y="22">C</text><text x="240" y="22">A</text>
+        </g>
+        <g class="seq" fill="#aeb8e6" font-size="11" text-anchor="middle">
+          <text x="30" y="55">G</text><text x="30" y="85">A</text><text x="30" y="115">T</text><text x="30" y="145">T</text><text x="30" y="175">A</text><text x="30" y="205">C</text><text x="30" y="235">A</text>
+        </g>
+        <rect x="45" y="35" width="210" height="210" fill="none" stroke="#6f7bb0" stroke-opacity="0.4"/>
+        <!-- diagonal matches -->
+        <circle cx="60" cy="50" r="6" fill="#33e0d2"/>
+        <circle cx="90" cy="80" r="6" fill="#33e0d2"/>
+        <circle cx="120" cy="110" r="6" fill="#33e0d2"/>
+        <circle cx="150" cy="140" r="6" fill="#33e0d2"/>
+        <circle cx="180" cy="170" r="6" fill="#33e0d2"/>
+        <circle cx="210" cy="200" r="6" fill="#33e0d2"/>
+        <circle cx="240" cy="230" r="6" fill="#33e0d2"/>
+        <!-- noise -->
+        <circle cx="90" cy="50" r="5" fill="#8a7bff" fill-opacity="0.5"/>
+        <circle cx="240" cy="50" r="5" fill="#8a7bff" fill-opacity="0.5"/>
+        <circle cx="180" cy="80" r="5" fill="#8a7bff" fill-opacity="0.5"/>
+        <circle cx="60" cy="170" r="5" fill="#8a7bff" fill-opacity="0.5"/>
+        <circle cx="240" cy="170" r="5" fill="#8a7bff" fill-opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="viz">
+      <h3>Three moves in the matrix</h3>
+      <p class="cap">Each cell is the best of: diagonal (match/mismatch), up or left (gap).</p>
+      <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="120" y="120" width="60" height="60" rx="6" fill="#33e0d2" fill-opacity="0.18" stroke="#33e0d2"/>
+        <rect x="120" y="40" width="60" height="60" rx="6" fill="#1b2461" stroke="#6f7bb0"/>
+        <rect x="40" y="120" width="60" height="60" rx="6" fill="#1b2461" stroke="#6f7bb0"/>
+        <rect x="40" y="40" width="60" height="60" rx="6" fill="#1b2461" stroke="#6f7bb0"/>
+        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#ffd447"/></marker></defs>
+        <line x1="100" y1="100" x2="125" y2="125" stroke="#ffd447" stroke-width="2.5" marker-end="url(#ar)"/>
+        <line x1="150" y1="100" x2="150" y2="118" stroke="#8a7bff" stroke-width="2.5" marker-end="url(#ar)"/>
+        <line x1="100" y1="150" x2="118" y2="150" stroke="#ff5d9e" stroke-width="2.5" marker-end="url(#ar)"/>
+        <text x="150" y="155" fill="#33e0d2" font-size="12" text-anchor="middle">best</text>
+        <text x="70" y="35" fill="#ffd447" font-size="11" text-anchor="middle">match −</text>
+        <text x="210" y="75" fill="#8a7bff" font-size="11">gap ↑</text>
+        <text x="70" y="205" fill="#ff5d9e" font-size="11" text-anchor="middle">gap ←</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- VISUAL 2: Needleman-Wunsch matrix with traceback -->
+  <div class="viz viz-full">
+    <h3>Needleman-Wunsch: fill, then trace back</h3>
+    <p class="cap">Scoring matrix for aligning <span class="seq" style="color:#33e0d2">G A T T A</span> with <span class="seq" style="color:#ff5d9e">G A A T</span> (match +1, gap −1). The bright path is the optimal global alignment.</p>
+    <svg viewBox="0 0 560 480" xmlns="http://www.w3.org/2000/svg">
+      <!-- column headers -->
+      <g class="seq" fill="#33e0d2" font-size="16" text-anchor="middle" font-weight="700">
+        <text x="170" y="35">G</text><text x="250" y="35">A</text><text x="330" y="35">T</text><text x="410" y="35">T</text><text x="490" y="35">A</text>
+      </g>
+      <!-- row headers -->
+      <g class="seq" fill="#ff5d9e" font-size="16" text-anchor="middle" font-weight="700">
+        <text x="45" y="160">G</text><text x="45" y="240">A</text><text x="45" y="320">A</text><text x="45" y="400">T</text>
+      </g>
+      <!-- grid cells: 5 cols x 5 rows (incl gap row/col). value text -->
+      <!-- helper rects -->
+      <g stroke="#6f7bb0" stroke-opacity="0.35" fill="#0a0e2a">
+        <!-- row0 -->
+        <rect x="90" y="50" width="80" height="60"/><rect x="170" y="50" width="80" height="60"/><rect x="250" y="50" width="80" height="60"/><rect x="330" y="50" width="80" height="60"/><rect x="410" y="50" width="80" height="60"/><rect x="490" y="50" width="60" height="60"/>
+        <!-- row1 -->
+        <rect x="90" y="110" width="80" height="80"/><rect x="170" y="110" width="80" height="80"/><rect x="250" y="110" width="80" height="80"/><rect x="330" y="110" width="80" height="80"/><rect x="410" y="110" width="80" height="80"/><rect x="490" y="110" width="60" height="80"/>
+        <!-- row2 -->
+        <rect x="90" y="190" width="80" height="80"/><rect x="170" y="190" width="80" height="80"/><rect x="250" y="190" width="80" height="80"/><rect x="330" y="190" width="80" height="80"/><rect x="410" y="190" width="80" height="80"/><rect x="490" y="190" width="60" height="80"/>
+        <!-- row3 -->
+        <rect x="90" y="270" width="80" height="80"/><rect x="170" y="270" width="80" height="80"/><rect x="250" y="270" width="80" height="80"/><rect x="330" y="270" width="80" height="80"/><rect x="410" y="270" width="80" height="80"/><rect x="490" y="270" width="60" height="80"/>
+        <!-- row4 -->
+        <rect x="90" y="350" width="80" height="80"/><rect x="170" y="350" width="80" height="80"/><rect x="250" y="350" width="80" height="80"/><rect x="330" y="350" width="80" height="80"/><rect x="410" y="350" width="80" height="80"/><rect x="490" y="350" width="60" height="80"/>
+      </g>
+      <!-- traceback highlighted cells -->
+      <g fill="#33e0d2" fill-opacity="0.22" stroke="#33e0d2" stroke-width="2">
+        <rect x="90" y="50" width="80" height="60"/>
+        <rect x="170" y="110" width="80" height="80"/>
+        <rect x="250" y="190" width="80" height="80"/>
+        <rect x="330" y="270" width="80" height="80"/>
+        <rect x="410" y="350" width="80" height="80"/>
+      </g>
+      <!-- values -->
+      <g fill="#aeb8e6" font-size="15" text-anchor="middle">
+        <text x="130" y="86">0</text><text x="210" y="86">-1</text><text x="290" y="86">-2</text><text x="370" y="86">-3</text><text x="450" y="86">-4</text><text x="520" y="86">-5</text>
+        <text x="130" y="156">-1</text><text x="290" y="156">0</text><text x="370" y="156">-1</text><text x="450" y="156">-2</text><text x="520" y="156">-3</text>
+        <text x="130" y="236">-2</text><text x="210" y="236">0</text><text x="370" y="236">-1</text><text x="450" y="236">-2</text><text x="520" y="236">-1</text>
+        <text x="130" y="316">-3</text><text x="210" y="316">-1</text><text x="290" y="316">1</text><text x="370" y="316">0</text><text x="450" y="316">-1</text><text x="520" y="316">-1</text>
+        <text x="130" y="396">-4</text><text x="210" y="396">-2</text><text x="290" y="396">0</text>
+      </g>
+      <!-- bright path values -->
+      <g fill="#33e0d2" font-size="16" text-anchor="middle" font-weight="700">
+        <text x="210" y="156">1</text>
+        <text x="290" y="236">2</text>
+        <text x="370" y="396">1</text>
+        <text x="450" y="396">2</text>
+      </g>
+    </svg>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>Dot plots give a fast visual sense of similarity before any scoring.</li>
+    <li>Dynamic programming guarantees the optimal alignment by reusing optimal sub-solutions.</li>
+    <li>Each matrix cell chooses the best of a diagonal match or a horizontal/vertical gap, then you trace back.</li>
+    <li>Needleman-Wunsch = global (whole length); Smith-Waterman = local (best region).</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev" href="chapter3.html"><small>← Previous</small><b>3 · Score Matrices</b></a>
+    <a class="next" href="chapter5.html"><small>Next →</small><b>5 · Database Searching</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

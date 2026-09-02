@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Read the full book — The Hitchhiker's Guide to the Genome</title>
+<meta name="description" content="Read all 621 pages of The Hitchhiker's Guide to the Genome in an interactive reader that turns like a real hardcover.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .reader-wrap { padding: 34px 0 30px; }
+  .reader-head { text-align:center; margin-bottom: 22px; }
+  .reader-head h1 { font-family:var(--font-display); font-size: clamp(1.5rem,3.4vw,2.2rem); margin:.3em 0 .2em; letter-spacing:-.5px; }
+  .reader-head p { color:var(--ink-soft); margin:0; }
+
+  .flip-stage { perspective: 3000px; display:flex; justify-content:center; align-items:flex-start; min-height: 612px; }
+  .flip-stage:fullscreen { background: radial-gradient(900px 600px at 50% 20%, #11183f, #04060f); align-items:center; }
+
+  .book {
+    position: relative; width: 840px; height: 594px;
+    transform-style: preserve-3d;
+    transition: transform .45s ease;
+    filter: drop-shadow(0 38px 46px rgba(0,0,0,.6));
+  }
+  .book.closed { transform: translateX(-210px); }
+
+  .pageface {
+    position: absolute; top: 0; height: 100%; width: 420px;
+    background-size: cover; background-position: center; background-color: #f4efe2;
+  }
+  #leftPage  { left: 0;   border-radius: 6px 2px 2px 6px; box-shadow: inset -16px 0 28px -14px rgba(0,0,0,.4); }
+  #rightPage { left: 420px; border-radius: 2px 6px 6px 2px; box-shadow: inset 16px 0 28px -14px rgba(0,0,0,.4); }
+
+  #flip {
+    position: absolute; top: 0; left: 420px; width: 420px; height: 100%;
+    transform-style: preserve-3d; transform-origin: left center;
+    z-index: 10;
+  }
+  #flip.animate { transition: transform .9s cubic-bezier(.3,.1,.2,1); }
+  #flip.back-origin { left: 0; transform-origin: right center; }
+  .flip-face {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    background-size: cover; background-position: center; background-color: #f4efe2;
+  }
+  .flip-front { box-shadow: inset 16px 0 28px -14px rgba(0,0,0,.4); }
+  .flip-back  { transform: rotateY(180deg); box-shadow: inset -16px 0 28px -14px rgba(0,0,0,.4); }
+
+  /* click zones */
+  .zone { position:absolute; top:0; height:100%; width:50%; z-index:6; cursor:pointer; }
+  .zone.l { left:0; } .zone.r { left:50%; }
+
+  /* controls */
+  .flip-controls { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:26px; flex-wrap:wrap; }
+  .flip-controls button, .flip-controls .jump {
+    font-family:var(--font-display); font-weight:600; font-size:.92rem;
+    background: rgba(120,160,255,.08); color:var(--ink); border:1px solid var(--panel-edge);
+    padding:10px 18px; border-radius:999px; cursor:pointer; transition:.2s;
+  }
+  .flip-controls button:hover:not(:disabled) { background: rgba(120,160,255,.18); transform:translateY(-2px); }
+  .flip-controls button:disabled { opacity:.32; cursor:not-allowed; }
+  .flip-controls .where { font-family:var(--font-mono); color:var(--ink-soft); font-size:.85rem; min-width:140px; text-align:center; }
+  .jump { display:flex; align-items:center; gap:8px; }
+  .jump input { width:64px; background:rgba(5,7,21,.6); border:1px solid var(--panel-edge); color:var(--ink); border-radius:8px; padding:6px 8px; font-family:var(--font-mono); text-align:center; }
+  .flip-hint { text-align:center; color:var(--ink-dim); font-size:.82rem; margin-top:14px; }
+  .chapnav { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:22px auto 0; max-width:840px; }
+  .chapnav .lbl { width:100%; text-align:center; font-family:var(--font-mono); font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--cyan); margin-bottom:4px; }
+  .chapnav button {
+    font-family:var(--font-display); font-weight:600; font-size:.82rem;
+    background: rgba(120,160,255,.07); color:var(--ink-soft); border:1px solid var(--panel-edge);
+    padding:8px 14px; border-radius:10px; cursor:pointer; transition:.2s;
+  }
+  .chapnav button:hover { color:var(--space-900); background: linear-gradient(120deg,var(--cyan),var(--violet)); border-color:transparent; transform:translateY(-2px); }
+  .chapnav button b { font-family:var(--font-display); }
+  .loadbar { height:3px; background:rgba(120,160,255,.12); border-radius:3px; max-width:520px; margin:18px auto 0; overflow:hidden; }
+  .loadbar i { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--cyan),var(--violet)); transition:width .3s; }
+
+  @media (max-width: 900px) {
+    .flip-stage { min-height: 380px; }
+    .book { transform: scale(.6); transform-origin: top center; }
+    .book.closed { transform: scale(.6) translateX(-210px); }
+  }
+  @media (max-width: 520px) {
+    .flip-stage { min-height: 280px; }
+    .book { transform: scale(.43); }
+    .book.closed { transform: scale(.43) translateX(-210px); }
+  }
+</style>
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html">Contents</a><a href="about.html">About</a><a href="read.html" class="active">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<section class="reader-wrap"><div class="wrap">
+  <div class="reader-head">
+    <span class="panic">Don't Panic</span>
+    <h1>Read the full book — all 621 pages</h1>
+    <p>Turn the pages like the real hardcover: click a side, use the arrows or ← → keys, or jump to any page.</p>
+  </div>
+
+  <div class="flip-stage" id="stage">
+    <div class="book closed" id="book">
+      <div class="pageface" id="leftPage"></div>
+      <div class="pageface" id="rightPage"></div>
+      <div id="flip">
+        <div class="flip-face flip-front" id="flipFront"></div>
+        <div class="flip-face flip-back" id="flipBack"></div>
+      </div>
+      <div class="zone l" id="zoneL"></div>
+      <div class="zone r" id="zoneR"></div>
+    </div>
+  </div>
+
+  <div class="flip-controls">
+    <button id="prev" disabled>‹ Prev</button>
+    <span class="where" id="where">Front cover</span>
+    <button id="next">Next ›</button>
+    <span class="jump">go to p.<input id="jumpInput" type="number" min="1" max="621" placeholder="#"><button id="jumpBtn">Go</button></span>
+    <button id="fs">⤢ Fullscreen</button>
+  </div>
+  <nav class="chapnav" id="chapnav"><span class="lbl">Jump to a chapter</span></nav>
+
+  <div class="loadbar"><i id="loadbar"></i></div>
+  <p class="flip-hint">621 pages render on demand, so the first turn of a new page may take a moment. Use the order/download options on the <a href="read.html" class="inline">Read &amp; Order</a> page to keep a copy.</p>
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="read.html" style="display:inline; color:var(--cyan);">Read &amp; order</a></p>
+</div></footer>
+
+<script>
+(function(){
+  // ---- page manifest: cover, 621 pdf pages, back cover ----
+  var pad = function(n){ return ('000'+n).slice(-3); };
+  var P = ['cover.png'];
+  for (var i=1;i<=621;i++) P.push('book/p'+pad(i)+'.jpg');
+  P.push('backcover.png');
+  var L = P.length;                 // 623
+  var SMAX = Math.floor((L-1)/2);   // last spread index (311)
+
+  var book=document.getElementById('book'), flip=document.getElementById('flip');
+  var leftPage=document.getElementById('leftPage'), rightPage=document.getElementById('rightPage');
+  var flipFront=document.getElementById('flipFront'), flipBack=document.getElementById('flipBack');
+  var whereEl=document.getElementById('where'), prevBtn=document.getElementById('prev'), nextBtn=document.getElementById('next');
+  var loadbar=document.getElementById('loadbar');
+
+  var s = 0;            // current spread
+  var animating = false;
+
+  function url(i){ return (i>=0 && i<L) ? 'url("'+P[i]+'")' : 'none'; }
+  function leftIdx(sp){ return sp===0 ? -1 : 2*sp-1; }
+  function rightIdx(sp){ return sp===0 ? 0 : 2*sp; }
+  function label(i){
+    if(i<0) return '';
+    if(i===0) return 'Front cover';
+    if(i===L-1) return 'Back cover';
+    return 'p.'+i;
+  }
+  function preload(i){ if(i>=0&&i<L){ var im=new Image(); im.src=P[i]; } }
+
+  function render(sp){
+    s = Math.max(0, Math.min(SMAX, sp));
+    var li=leftIdx(s), ri=rightIdx(s);
+    leftPage.style.backgroundImage = url(li);
+    leftPage.style.visibility = (li<0) ? 'hidden' : 'visible';
+    rightPage.style.backgroundImage = url(ri);
+    flip.style.display = 'none';
+    book.classList.toggle('closed', s===0);
+    prevBtn.disabled = (s===0);
+    nextBtn.disabled = (s===SMAX);
+    var ll=label(li), rl=label(ri);
+    whereEl.textContent = s===0 ? 'Front cover' : ((ll?ll:'')+(ll&&rl?' – ':'')+(rl?rl:''));
+    loadbar.style.width = (s/SMAX*100).toFixed(1)+'%';
+    // preload neighbours
+    preload(ri+1); preload(ri+2); preload(li-1); preload(li-2);
+  }
+
+  function endFlip(target){
+    animating=false;
+    flip.classList.remove('animate');
+    render(target);
+  }
+
+  function next(){
+    if(animating || s>=SMAX) return;
+    animating=true;
+    // opening from the closed cover: recenter the book instantly (no jump-animation)
+    if(s===0){ book.style.transition='none'; book.classList.remove('closed'); void book.offsetWidth; book.style.transition=''; }
+    var curR=rightIdx(s), newL=2*s+1, newR=2*s+2;
+    // reveal next right page underneath the lifting sheet
+    rightPage.style.backgroundImage = url(newR);
+    // set up flip on the right, origin left
+    flip.classList.remove('back-origin');
+    flipFront.style.backgroundImage = url(curR);
+    flipBack.style.backgroundImage  = url(newL);
+    flip.style.display='block';
+    flip.style.transform='rotateY(0deg)';
+    // force reflow then animate
+    void flip.offsetWidth;
+    flip.classList.add('animate');
+    flip.style.transform='rotateY(-180deg)';
+    var done=false; var fin=function(){ if(done) return; done=true; endFlip(s+1); };
+    flip.addEventListener('transitionend', fin, {once:true});
+    setTimeout(fin, 1000);
+  }
+
+  function prev(){
+    if(animating || s<=0) return;
+    animating=true;
+    var curL=leftIdx(s), newS=s-1, newR=rightIdx(newS), newL=leftIdx(newS);
+    // sheet starts flat on the left (front = current left, seamless), sweeps over to the right
+    flip.classList.add('back-origin');
+    flipFront.style.backgroundImage = url(curL);   // visible on the left at start
+    flipBack.style.backgroundImage  = url(newR);   // lands on the right at the end
+    flip.style.display='block';
+    flip.classList.remove('animate');
+    flip.style.transform='rotateY(0deg)';
+    // reveal the previous left page underneath the lifting sheet
+    leftPage.style.visibility = (newL<0)?'hidden':'visible';
+    leftPage.style.backgroundImage = url(newL);
+    void flip.offsetWidth;
+    flip.classList.add('animate');
+    flip.style.transform='rotateY(180deg)';
+    var done=false; var fin=function(){ if(done) return; done=true; endFlip(newS); };
+    flip.addEventListener('transitionend', fin, {once:true});
+    setTimeout(fin, 1000);
+  }
+
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+  document.getElementById('zoneR').addEventListener('click', next);
+  document.getElementById('zoneL').addEventListener('click', prev);
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight') next();
+    else if(e.key==='ArrowLeft') prev();
+  });
+  document.getElementById('jumpBtn').addEventListener('click', function(){
+    var n=parseInt(document.getElementById('jumpInput').value,10);
+    if(n>=1 && n<=621){ render(Math.ceil(n/2)); }
+  });
+  document.getElementById('jumpInput').addEventListener('keydown', function(e){
+    if(e.key==='Enter'){ document.getElementById('jumpBtn').click(); }
+  });
+  // chapter quick-jump: [label, starting PDF page]
+  var CHAPTERS = [
+    ['1 · Introduction',31],['2 · Databases',73],['3 · Score Matrices',119],
+    ['4 · Alignments',163],['5 · DB Searching',203],['6 · Phylogenetics',267],
+    ['7 · Proteins',317],['8 · Codecs',377],['9 · Industrial',435],['10 · Epilogue',497]
+  ];
+  var cn=document.getElementById('chapnav');
+  CHAPTERS.forEach(function(c){
+    var b=document.createElement('button');
+    b.innerHTML='<b>'+c[0]+'</b>';
+    b.title='Go to page '+c[1];
+    b.addEventListener('click', function(){
+      render(Math.ceil(c[1]/2));
+      document.getElementById('stage').scrollIntoView({behavior:'smooth',block:'center'});
+    });
+    cn.appendChild(b);
+  });
+
+  document.getElementById('fs').addEventListener('click', function(){
+    var st=document.getElementById('stage');
+    if(!document.fullscreenElement){ (st.requestFullscreen||st.webkitRequestFullscreen||function(){}).call(st); }
+    else { document.exitFullscreen && document.exitFullscreen(); }
+  });
+
+  render(0);
+})();
+</script>
+</body>
+</html>

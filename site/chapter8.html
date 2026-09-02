@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.8 · Genomic Codecs (HMMs &amp; SCFG) — Guide to the Genome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="starfield"></div>
+
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M10 4c0 8 20 8 20 16S10 28 10 36" stroke="#33e0d2" stroke-width="2.4" stroke-linecap="round"/><path d="M30 4c0 8-20 8-20 16s20 8 20 16" stroke="#8a7bff" stroke-width="2.4" stroke-linecap="round"/><line x1="12" y1="10" x2="28" y2="10" stroke="#ff5d9e" stroke-width="1.8"/><line x1="14" y1="20" x2="26" y2="20" stroke="#ffd447" stroke-width="1.8"/><line x1="12" y1="30" x2="28" y2="30" stroke="#51e08a" stroke-width="1.8"/></svg>
+    <span><b>Guide to the Genome</b><small>Don't Panic</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="contents.html" class="active">Contents</a><a href="about.html">About</a><a href="read.html">Read &amp; Order</a><a href="read.html" class="nav-cta">Get the book</a>
+  </div>
+</div></nav>
+
+<header class="chap-hero"><div class="wrap">
+  <span class="chap-kicker"><span class="pill">08</span> Chapter Eight</span>
+  <h1>Genomic Codecs: HMMs &amp; SCFG</h1>
+  <p class="intro">Genomes are written in a language. Hidden Markov Models decode genes from hidden states; stochastic grammars capture RNA structure; and even fractal geometry hides in the sequence.</p>
+</div></header>
+
+<section style="padding-top:20px;"><div class="wrap">
+
+  <div class="concept-row">
+    <div class="concept"><div class="ic">🎰</div><h4>Hidden states</h4><p>You see the symbols (bases); the state that emitted them — gene or not — is hidden.</p></div>
+    <div class="concept"><div class="ic">🗣️</div><h4>Grammars of life</h4><p>The Chomsky hierarchy frames why RNA folding needs context-free, not just regular, grammars.</p></div>
+    <div class="concept"><div class="ic">❄️</div><h4>Fractal dimension</h4><p>Self-similar structure recurs across scales — measurable even in genomic data.</p></div>
+  </div>
+
+  <!-- VISUAL 1: HMM dishonest casino -->
+  <div class="viz viz-full">
+    <h3>The occasionally dishonest casino</h3>
+    <p class="cap">A classic HMM: two hidden states (Fair / Loaded die) with transition probabilities; each emits observable rolls.</p>
+    <svg viewBox="0 0 820 300" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="a8" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#aeb8e6"/></marker></defs>
+      <!-- Fair state -->
+      <circle cx="230" cy="120" r="62" fill="#33e0d2" fill-opacity="0.16" stroke="#33e0d2" stroke-width="2.5"/>
+      <text x="230" y="115" fill="#33e0d2" font-size="18" text-anchor="middle" font-weight="700">FAIR</text>
+      <text x="230" y="138" fill="#aeb8e6" font-size="11" text-anchor="middle">each face 1/6</text>
+      <!-- Loaded state -->
+      <circle cx="590" cy="120" r="62" fill="#ff5d9e" fill-opacity="0.16" stroke="#ff5d9e" stroke-width="2.5"/>
+      <text x="590" y="115" fill="#ff5d9e" font-size="18" text-anchor="middle" font-weight="700">LOADED</text>
+      <text x="590" y="138" fill="#aeb8e6" font-size="11" text-anchor="middle">six = 1/2</text>
+      <!-- transitions -->
+      <path d="M292,100 C380,60 440,60 528,100" fill="none" stroke="#aeb8e6" stroke-width="2" marker-end="url(#a8)"/>
+      <text x="410" y="62" fill="#aeb8e6" font-size="12" text-anchor="middle">0.05</text>
+      <path d="M528,150 C440,190 380,190 292,150" fill="none" stroke="#aeb8e6" stroke-width="2" marker-end="url(#a8)"/>
+      <text x="410" y="200" fill="#aeb8e6" font-size="12" text-anchor="middle">0.10</text>
+      <!-- self loops -->
+      <path d="M195,68 C150,30 130,90 175,80" fill="none" stroke="#33e0d2" stroke-width="2" marker-end="url(#a8)"/>
+      <text x="135" y="55" fill="#33e0d2" font-size="11">0.95</text>
+      <path d="M625,68 C670,30 690,90 645,80" fill="none" stroke="#ff5d9e" stroke-width="2" marker-end="url(#a8)"/>
+      <text x="665" y="55" fill="#ff5d9e" font-size="11">0.90</text>
+      <!-- emissions -->
+      <text x="410" y="250" fill="#ffd447" font-size="14" text-anchor="middle" class="seq">observed rolls: 6 2 6 6 3 6 6 1 5 6 6 6</text>
+      <text x="410" y="278" fill="#6f7bb0" font-size="11" text-anchor="middle">Viterbi decodes the most likely hidden state path</text>
+    </svg>
+  </div>
+
+  <!-- VISUAL 2: Chomsky hierarchy + Sierpinski -->
+  <div class="viz-grid">
+    <div class="viz">
+      <h3>The Chomsky hierarchy</h3>
+      <p class="cap">RNA secondary structure needs context-free power — nested, not just linear.</p>
+      <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="280" height="190" rx="12" fill="#1b2461" fill-opacity="0.4" stroke="#6f7bb0"/>
+        <text x="160" y="40" fill="#6f7bb0" font-size="12" text-anchor="middle">Recursively enumerable</text>
+        <rect x="45" y="55" width="230" height="140" rx="10" fill="#8a7bff" fill-opacity="0.14" stroke="#8a7bff"/>
+        <text x="160" y="73" fill="#8a7bff" font-size="12" text-anchor="middle">Context-sensitive</text>
+        <rect x="75" y="88" width="170" height="95" rx="9" fill="#ff5d9e" fill-opacity="0.16" stroke="#ff5d9e"/>
+        <text x="160" y="106" fill="#ff5d9e" font-size="12" text-anchor="middle">Context-free (RNA)</text>
+        <rect x="105" y="120" width="110" height="50" rx="8" fill="#33e0d2" fill-opacity="0.18" stroke="#33e0d2"/>
+        <text x="160" y="150" fill="#33e0d2" font-size="12" text-anchor="middle">Regular (HMM)</text>
+      </svg>
+    </div>
+    <div class="viz">
+      <h3>Fractal self-similarity</h3>
+      <p class="cap">The Sierpiński triangle — a non-integer dimension (~1.585).</p>
+      <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#33e0d2">
+          <!-- big triangle subdivided -->
+          <polygon points="160,30 90,150 230,150"/>
+        </g>
+        <g fill="#0a0e2a">
+          <polygon points="160,90 125,150 195,150"/>
+        </g>
+        <g fill="#0a0e2a">
+          <polygon points="125,90 107,120 143,120"/>
+          <polygon points="195,90 177,120 213,120"/>
+          <polygon points="160,150 142,180 178,180"/>
+        </g>
+        <g fill="#8a7bff">
+          <polygon points="160,30 143,60 177,60" opacity="0.6"/>
+          <polygon points="125,90 108,120 142,120" opacity="0"/>
+        </g>
+        <text x="160" y="205" fill="#6f7bb0" font-size="11" text-anchor="middle">D = log3 / log2 ≈ 1.585</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="sec" style="font-size:1.5rem; margin-top:50px;">Key takeaways</h2>
+  <ul class="takeaways">
+    <li>HMMs model sequences as hidden states emitting observable symbols — ideal for gene finding.</li>
+    <li>The Viterbi algorithm recovers the most probable hidden-state path (e.g. gene vs. intergenic).</li>
+    <li>RNA structure prediction needs context-free grammars (SCFGs), a step up the Chomsky hierarchy.</li>
+    <li>Fractal geometry offers another lens on the self-similar structure within genomes.</li>
+  </ul>
+
+  <div class="pager">
+    <a class="prev" href="chapter7.html"><small>← Previous</small><b>7 · Proteins</b></a>
+    <a class="next" href="chapter9.html"><small>Next →</small><b>9 · Industrial Bioinformatics</b></a>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="contents.html" style="display:inline; color:var(--cyan);">All chapters</a></p>
+</div></footer>
+</body>
+</html>

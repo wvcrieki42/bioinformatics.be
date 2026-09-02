@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Read the full book — The Hitchhiker's Guide to the Genome</title>
-<meta name="description" content="Read all 621 pages of The Hitchhiker's Guide to the Genome in an interactive reader that turns like a real hardcover.">
+<meta name="description" content="Read all 713 pages of The Hitchhiker's Guide to the Genome in an interactive reader that turns like a real hardcover.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -103,7 +103,7 @@
 <section class="reader-wrap"><div class="wrap">
   <div class="reader-head">
     <span class="panic">Don't Panic</span>
-    <h1>Read the full book — all 621 pages</h1>
+    <h1>Read the full book — all 713 pages</h1>
     <p>Turn the pages like the real hardcover: click a side, use the arrows or ← → keys, or jump to any page.</p>
   </div>
 
@@ -124,28 +124,28 @@
     <button id="prev" disabled>‹ Prev</button>
     <span class="where" id="where">Front cover</span>
     <button id="next">Next ›</button>
-    <span class="jump">go to p.<input id="jumpInput" type="number" min="1" max="621" placeholder="#"><button id="jumpBtn">Go</button></span>
+    <span class="jump">go to p.<input id="jumpInput" type="number" min="1" max="713" placeholder="#"><button id="jumpBtn">Go</button></span>
     <button id="fs">⤢ Fullscreen</button>
   </div>
   <nav class="chapnav" id="chapnav"><span class="lbl">Jump to a chapter</span></nav>
 
   <div class="loadbar"><i id="loadbar"></i></div>
-  <p class="flip-hint">621 pages render on demand, so the first turn of a new page may take a moment. Use the order/download options on the <a href="read.html" class="inline">Read &amp; Order</a> page to keep a copy.</p>
+  <p class="flip-hint">713 pages render on demand, so the first turn of a new page may take a moment. Use the order/download options on the <a href="read.html" class="inline">Read &amp; Order</a> page to keep a copy.</p>
 </div></section>
 
 <footer class="footer"><div class="wrap">
-  <p class="muted" style="text-align:center;">© 2025–2026 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v1.50 · <a href="read.html" style="display:inline; color:var(--cyan);">Read &amp; order</a></p>
+  <p class="muted" style="text-align:center;">© 2026–2027 Wim Van Criekinge · The Hitchhiker's Guide to the Genome · v2.42 · <a href="read.html" style="display:inline; color:var(--cyan);">Read &amp; order</a></p>
 </div></footer>
 
 <script>
 (function(){
-  // ---- page manifest: cover, 621 pdf pages, back cover ----
+  // ---- page manifest: cover, 713 pdf pages, back cover ----
   var pad = function(n){ return ('000'+n).slice(-3); };
   var P = ['cover.png'];
-  for (var i=1;i<=621;i++) P.push('book/p'+pad(i)+'.jpg');
-  P.push('backcover.png');
-  var L = P.length;                 // 623
-  var SMAX = Math.floor((L-1)/2);   // last spread index (311)
+  for (var i=1;i<=713;i++) P.push('book/p'+pad(i)+'.jpg');
+  P.push('backcover.jpg');
+  var L = P.length;                 // 715
+  var SMAX = Math.floor((L-1)/2);   // last spread index (357)
 
   var book=document.getElementById('book'), flip=document.getElementById('flip');
   var leftPage=document.getElementById('leftPage'), rightPage=document.getElementById('rightPage');
@@ -245,16 +245,16 @@
   });
   document.getElementById('jumpBtn').addEventListener('click', function(){
     var n=parseInt(document.getElementById('jumpInput').value,10);
-    if(n>=1 && n<=621){ render(Math.ceil(n/2)); }
+    if(n>=1 && n<=713){ render(Math.ceil(n/2)); }
   });
   document.getElementById('jumpInput').addEventListener('keydown', function(e){
     if(e.key==='Enter'){ document.getElementById('jumpBtn').click(); }
   });
   // chapter quick-jump: [label, starting PDF page]
   var CHAPTERS = [
-    ['1 · Introduction',31],['2 · Databases',73],['3 · Score Matrices',119],
-    ['4 · Alignments',163],['5 · DB Searching',203],['6 · Phylogenetics',267],
-    ['7 · Proteins',317],['8 · Codecs',377],['9 · Industrial',435],['10 · Epilogue',497]
+    ['1 · Introduction',35],['2 · Databases',79],['3 · Score Matrices',133],
+    ['4 · Alignments',189],['5 · DB Searching',249],['6 · Phylogenetics',331],
+    ['7 · Proteins',401],['8 · Codecs',477],['9 · Industrial',553],['10 · Epilogue',641]
   ];
   var cn=document.getElementById('chapnav');
   CHAPTERS.forEach(function(c){

@@ -144,8 +144,12 @@
   var P = ['cover.png'];
   for (var i=1;i<=713;i++) P.push('book/p'+pad(i)+'.jpg');
   P.push('backcover.jpg');
-  var L = P.length;                 // 715
-  var SMAX = Math.floor((L-1)/2);   // last spread index (357)
+  var L = P.length;                     // 715
+  // Odd PDF pages are rectos (folio bottom-right), even are versos (folio
+  // bottom-left), so a spread must be (even, odd) -- not (odd, even), which
+  // pushed every page number to the inside of the gutter. Page 1 therefore
+  // sits alone on the right, as it does in the printed book.
+  var SMAX = Math.floor((L-1)/2) + 1;   // last spread index (358)
 
   var book=document.getElementById('book'), flip=document.getElementById('flip');
   var leftPage=document.getElementById('leftPage'), rightPage=document.getElementById('rightPage');
@@ -157,8 +161,10 @@
   var animating = false;
 
   function url(i){ return (i>=0 && i<L) ? 'url("'+P[i]+'")' : 'none'; }
-  function leftIdx(sp){ return sp===0 ? -1 : 2*sp-1; }
-  function rightIdx(sp){ return sp===0 ? 0 : 2*sp; }
+  // spread 0 = front cover alone on the right; spread 1 = page 1 alone on the
+  // right; from spread 2 on, (2s-2, 2s-1) = (verso, recto)
+  function leftIdx(sp){ return sp<=1 ? -1 : 2*sp-2; }
+  function rightIdx(sp){ return sp===0 ? 0 : 2*sp-1; }
   function label(i){
     if(i<0) return '';
     if(i===0) return 'Front cover';
@@ -173,6 +179,7 @@
     leftPage.style.backgroundImage = url(li);
     leftPage.style.visibility = (li<0) ? 'hidden' : 'visible';
     rightPage.style.backgroundImage = url(ri);
+    rightPage.style.visibility = (ri<0 || ri>=L) ? 'hidden' : 'visible';
     flip.style.display = 'none';
     book.classList.toggle('closed', s===0);
     prevBtn.disabled = (s===0);
@@ -195,8 +202,9 @@
     animating=true;
     // opening from the closed cover: recenter the book instantly (no jump-animation)
     if(s===0){ book.style.transition='none'; book.classList.remove('closed'); void book.offsetWidth; book.style.transition=''; }
-    var curR=rightIdx(s), newL=2*s+1, newR=2*s+2;
+    var curR=rightIdx(s), newL=leftIdx(s+1), newR=rightIdx(s+1);
     // reveal next right page underneath the lifting sheet
+    rightPage.style.visibility = (newR<0 || newR>=L) ? 'hidden' : 'visible';
     rightPage.style.backgroundImage = url(newR);
     // set up flip on the right, origin left
     flip.classList.remove('back-origin');
@@ -245,7 +253,7 @@
   });
   document.getElementById('jumpBtn').addEventListener('click', function(){
     var n=parseInt(document.getElementById('jumpInput').value,10);
-    if(n>=1 && n<=713){ render(Math.ceil(n/2)); }
+    if(n>=1 && n<=713){ render(Math.floor(n/2)+1); }
   });
   document.getElementById('jumpInput').addEventListener('keydown', function(e){
     if(e.key==='Enter'){ document.getElementById('jumpBtn').click(); }
@@ -262,7 +270,7 @@
     b.innerHTML='<b>'+c[0]+'</b>';
     b.title='Go to page '+c[1];
     b.addEventListener('click', function(){
-      render(Math.ceil(c[1]/2));
+      render(Math.floor(c[1]/2)+1);
       document.getElementById('stage').scrollIntoView({behavior:'smooth',block:'center'});
     });
     cn.appendChild(b);

@@ -9,6 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* the back cover links out; the anchor must fill the grid cell the bare
+     <img> used to occupy, and needs a visible affordance since nothing else
+     signals that the image is clickable */
+  .backcover-link { display:block; width:260px; max-width:80vw; border-radius:14px; }
+  .backcover-link .backcover { display:block; transition:transform .2s ease, box-shadow .2s ease; }
+  .backcover-link:hover .backcover,
+  .backcover-link:focus-visible .backcover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 60px -18px rgba(0,0,0,.85), 0 0 52px -14px rgba(51,224,210,.55);
+    border-color: rgba(51,224,210,.55);
+  }
+  .backcover-link:focus-visible { outline:2px solid var(--cyan); outline-offset:6px; }
+</style>
 </head>
 <body>
 <div class="starfield"></div>
@@ -40,7 +54,9 @@
   <h2 class="sec">Prof. Dr. ir. Wim Van Criekinge</h2>
   <div class="panel-box" style="margin-top:24px;">
     <div class="author-card">
-      <img class="backcover" src="backcover.jpg" alt="Back cover of The Hitchhiker's Guide to the Genome featuring author Wim Van Criekinge">
+      <a class="backcover-link" href="https://vancriekinge.com" target="_blank" rel="noopener" title="vancriekinge.com">
+        <img class="backcover" src="backcover.jpg" alt="Back cover of The Hitchhiker's Guide to the Genome featuring author Wim Van Criekinge — links to vancriekinge.com">
+      </a>
       <div>
         <p style="margin-top:0; color:var(--ink-soft);">Wim holds a Master's degree in Chemical Engineering from <b style="color:var(--ink)">Ghent University</b>, where he also earned his Ph.D. in Molecular Biology in 1998. In 2000 he founded and heads the laboratory for computational genomics and bioinformatics (<b style="color:var(--ink)">BIOBIX</b>) as well as the core sequencing facility (<b style="color:var(--ink)">NXTGNT</b>), and is appointed professor in computational genomics and bioinformatics.</p>
         <p style="color:var(--ink-soft);">His lab was the first to employ routine whole-epigenomics sequencing at scale, applied to age-related diseases such as oncology and rheumatoid arthritis, and to longevity. He is a founder and partner of the Novalis life-science investment funds, translating his expertise into biotech start-ups with successful exits — among them Devgen, MDxHealth, Genohm, Wobblebase, OHMX.Bio and Wintercircus.</p>

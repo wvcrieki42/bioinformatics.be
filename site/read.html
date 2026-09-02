@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  .backstock { display:grid; grid-template-columns:1fr auto; gap:38px; align-items:center;
+               margin-top:26px; border-color:rgba(255,212,71,.35); }
+  .backstock h3 { font-family:var(--font-display); font-size:1.35rem; margin:10px 0 12px; }
+  .backstock p { color:var(--ink-soft); margin:0 0 10px; font-size:.95rem; }
+  .backstock .fineprint { color:var(--ink-dim); font-size:.85rem; margin:0; }
+  .backstock .glow-price { color:var(--gold); }
+  .backstock-cta { text-align:center; flex:none; }
+  .backstock-cta .amt { font-family:var(--font-display); font-size:2.4rem; font-weight:700;
+                        color:var(--gold); margin-bottom:16px; white-space:nowrap; }
+  .backstock-cta .amt small { font-size:.95rem; color:var(--ink-dim); font-weight:400; }
+  @media (max-width:820px){
+    .backstock { grid-template-columns:1fr; gap:22px; }
+    .backstock-cta { text-align:left; }
+  }
+</style>
 </head>
 <body>
 <div class="starfield"></div>
@@ -104,6 +120,19 @@
   </div>
 
   <p style="color:var(--ink-dim); font-size:.85rem; margin-top:22px;">🔒 Printed copies are ordered through the course page on <b style="color:var(--ink-soft);">Ufora</b>, which requires a UGent login. Not at Ghent University? <a href="mailto:wim.vancriekinge@ugent.be?subject=Ordering%20a%20printed%20copy%20—%20Hitchhiker's%20Guide%20to%20the%20Genome" style="color:var(--cyan);">Get in touch about ordering a copy</a> — and the full PDF above is free for everyone, no login needed.</p>
+
+  <div class="panel-box backstock">
+    <div>
+      <span class="eyebrow">// While stocks last</span>
+      <h3>Earlier editions, reduced</h3>
+      <p>Previous editions are sometimes still on the shelf at a reduced price, depending on stock. The <b>Second Edition (2025)</b> is currently <b class="glow-price">€20.42</b> — and unlike the current print run, it carries <b>all four appendices</b>: the Molecular Biology Cheat Sheet, Python for Bioinformatics, Visualization, and Collaborative Writing.</p>
+      <p class="fineprint">Stock is limited and not replenished — once an edition sells out, it's gone. Availability is shown on the course page.</p>
+    </div>
+    <div class="backstock-cta">
+      <div class="amt">€20.42<small>/ copy</small></div>
+      <a href="https://ufora.ugent.be/d2l/home/1399666" target="_blank" rel="noopener" class="btn btn-ghost">Check availability ↗</a>
+    </div>
+  </div>
 </div></section>
 
 <!-- BULK / COURSE -->

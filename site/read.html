@@ -24,6 +24,9 @@
     .backstock { grid-template-columns:1fr; gap:22px; }
     .backstock-cta { text-align:left; }
   }
+  .soon { margin-top:22px; border-color:rgba(51,224,210,.35); }
+  .soon h3 { font-family:var(--font-display); font-size:1.35rem; margin:10px 0 12px; }
+  .soon p { color:var(--ink-soft); margin:0 0 10px; font-size:.95rem; max-width:78ch; }
 </style>
 </head>
 <body>
@@ -134,6 +137,17 @@
       <a href="https://ufora.ugent.be/d2l/home/1399666" target="_blank" rel="noopener" class="btn btn-ghost">Check availability ↗</a>
     </div>
   </div>
+
+  <div class="panel-box soon">
+    <span class="eyebrow">// Coming soon</span>
+    <h3>Self-published, ordered online</h3>
+    <p>The Guide is moving to self-publishing, which means printed copies will be orderable online by anyone — no UGent login, no course page, shipped wherever you are.</p>
+    <p>It isn't open yet. If you'd like to know the moment it is, join the waiting list and you'll get <b style="color:var(--ink-soft);">one email</b> when ordering goes live — nothing else, ever.</p>
+    <div class="hero-actions" style="margin-top:22px;">
+      <a href="mailto:wim.vancriekinge@ugent.be?subject=Waiting%20list%20%E2%80%94%20Hitchhiker's%20Guide%20to%20the%20Genome&amp;body=Please%20add%20me%20to%20the%20waiting%20list%20for%20the%20self-published%20edition.%0D%0A%0D%0AName%3A%0D%0ACountry%3A%0D%0ANumber%20of%20copies%20(optional)%3A%0D%0A" class="btn btn-primary">✉ Join the waiting list</a>
+      <a href="hitchhikers-guide-to-the-genome-v2.42.pdf" class="btn btn-ghost" download>Meanwhile, read it free</a>
+    </div>
+  </div>
 </div></section>
 
 <!-- BULK / COURSE -->
@@ -145,12 +159,8 @@
   </div>
   <div class="panel-box">
     <h3 style="font-family:var(--font-display); margin-top:0;">Notify me of new versions</h3>
-    <p style="color:var(--ink-soft);">The Guide is updated every academic year. Drop your email and we'll let you know when a new edition lands.</p>
-    <form onsubmit="event.preventDefault(); this.querySelector('.msg').style.display='block'; this.reset();" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-      <input type="email" required placeholder="you@example.com" style="flex:1; min-width:200px; padding:13px 16px; border-radius:999px; border:1px solid var(--panel-edge); background:rgba(5,7,21,.6); color:var(--ink); font-family:var(--font-body);">
-      <button class="btn btn-magenta" type="submit">Notify me</button>
-      <span class="msg" style="display:none; width:100%; color:var(--green); font-size:.9rem;">✓ Thanks! Connect this form to your mailing-list provider to start collecting sign-ups.</span>
-    </form>
+    <p style="color:var(--ink-soft);">The Guide is updated every academic year, and online ordering is on its way. The waiting list covers both — one email when there's something worth telling you.</p>
+    <a href="mailto:wim.vancriekinge@ugent.be?subject=Waiting%20list%20%E2%80%94%20Hitchhiker's%20Guide%20to%20the%20Genome&amp;body=Please%20add%20me%20to%20the%20waiting%20list%20for%20the%20self-published%20edition.%0D%0A%0D%0AName%3A%0D%0ACountry%3A%0D%0ANumber%20of%20copies%20(optional)%3A%0D%0A" class="btn btn-magenta" style="margin-top:10px;">✉ Join the waiting list</a>
   </div>
 </div></div></section>
 
